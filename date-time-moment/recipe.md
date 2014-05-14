@@ -53,8 +53,8 @@ You can use the following techniques and packages to meet criteria #2 of date pr
 * collection2
 * collection-hooks
 
-#### Methods
-http://docs.meteor.com/#methods_header
+#### [Methods](http://docs.meteor.com/#methods_header)
+
 ```
 var Things = new Collection('things');
 if (Meteor.isClient) {
@@ -86,8 +86,7 @@ if (Meteor.isServer) {
 This will ensure that the property `createdAt` is set on the server (using server time), right before insertion.  Any inserts that happen to not use this method, may not have the correct date or even have the date at all.
 
 
-#### collection2
-https://github.com/aldeed/meteor-collection2#autovalue
+#### [collection2](https://github.com/aldeed/meteor-collection2#autovalue)
 ```
 Things = new Meteor.Collection("things", {
     schema: new SimpleSchema({
@@ -141,8 +140,7 @@ if (Meteor.isClient) {
 ```
 In this pattern we do the insert right from the client side, which simplifies our code a good bit.  From the collection2 docs we can learn that even though the autovalue is defined and executed on both client and server, 'the actual value saved will always be generated on the server'.  We also have the added benefit here of always having a correct createdAt and updatedAt date for this any object in this collection.
 
-#### collection-hooks
-https://github.com/matb33/meteor-collection-hooks/#beforeinsertuserid-doc
+#### [collection-hooks](https://github.com/matb33/meteor-collection-hooks/#beforeinsertuserid-doc)
 ```
 Things = new Meteor.Collection("things");
 
@@ -171,7 +169,7 @@ This pattern gives ensures our objects have the correct date without defining a 
 
 ## How do you display dates in your application?
 
-Enter moment.js[http://www.momentjs.com]
+Enter [moment.js](http://www.momentjs.com)
 
 Moment is a very powerful library for parsing, formatting, and manipulating dates.  If you've worked with dates in the past, you know how painful and tricky it can be to get what you want from a date.  Moment makes all common date operations quite easy and straightforward.
 
