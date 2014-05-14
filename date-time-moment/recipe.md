@@ -6,8 +6,8 @@ Dates and times are vital to almost all applications and can be quite tricky to 
 
 ## What are important criteria of Date properties?
 
-1) Dates must specify an exact time without any ambiguity
-2) Dates must be trusted to be accurate, consistent, and not manipulated
+1. Dates must specify an exact time without any ambiguity
+2. Dates must be trusted to be accurate, consistent, and not manipulated
 
 ## How should dates be stored in my objects?
 
@@ -15,7 +15,7 @@ The format of the property allows it to meet criteria #1 by the inherit qualitie
 
 The two most common options that are roughly equivalent are as a Date object or a Unix Offset
 
-1) As a Date object
+* As a Date object
 ```
 var date = new Date();
 // date -> Wed May 14 2014 14:03:28 GMT-0700 (UTC)
@@ -23,7 +23,7 @@ var date = new Date();
 A Date object clearly meets criteria #1 as it specifies date, time, and importantly the timezone.
 
 
-2) As a number, which represents the Unix Offset, the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC.
+* As a number, which represents the Unix Offset, the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC.
 ```
 var date = Date.now();
 // date -> 1400101308998
@@ -181,36 +181,22 @@ Enter moment.js[http://www.momentjs.com]
 
 Moment is a very powerful library for parsing, formatting, and manipulating dates.  If you've worked with dates in the past, you know how painful and tricky it can be to get what you want from a date.  Moment makes all common date operations quite easy and straightforward.
 
-moment knows what time zone your device is set to
 
-try it out in the dev console when browsing momentjs.com
+#### What about time zones and daylight savings time?
+
+Moment can automatically detect what time zone your device is set to as well as wether or not daylight savings time is in effect. Try it out in the dev console when browsing momentjs.com
 ```
 moment().zone()
 ```
+This returns the offset in minutes from UTC time.  If you are in EDT, you'll get 240.  EST, 300.  PDT, 420. PST, 480.  etc....
 
-If you are in EDT, you'll get 240.  EST, 300.  PDT, 420. PST, 480.  etc....
+If you want to test this out, disable any automatic setting of time or timezone, change the timezone on your device, close and relaunch your browser, then run the above code in the console.
 
+In most cases, you don't have to really care what timezone a user is in when using moment.  However, if desired you could have a user profile setting for the timezone that you could use to override the device's inferred timezone.
 
-If you want to test this out, disable any automatic setting of time or timezone, change the timezone on your device, close and relaunch your browser, then run the above code in the console
+#### How do you display times in correct local timezone for any user?
 
-
-
---
-
-Daylight savings time, oh my
-
---
-
-
-
-
-----
-
-
-how to display times in correct local timezone for any user
-http://michaelapproved.com/articles/timezone-detect-and-ignore-daylight-saving-time-dst
-
-assuming you have a property `createdAt` as specified above, you can display the date in the correct format for any user in any timezone quite easily with a helper method
+Assuming you have a property `createdAt` as specified above, you can display the date in the correct format for any user in any timezone quite easily with a helper method.
 
 ```
 UI.registerHelper("localizedDateAndTime", function(date) {
@@ -222,15 +208,13 @@ UI.registerHelper("localizedDateAndTime", function(date) {
 You can then use this helper method in your template
 ```
 {{#each things}}
-   Name: {{name}}
-   <br>
    Created At: {{localizedDateAndTime createdAt}}
 {{/each}}
 ```
 
+#### What about textual relative time display?
 
-
-what about textual relative time display?
+The following helpers return a less formal representation of a date that is relative to the current time.
 
 ```
 UI.registerHelper("timeFromNow", function(date) {
@@ -242,5 +226,4 @@ UI.registerHelper("calendarTime", function(date) {
 	if(date)
 		return moment(date).calendar(); // "Yesterday 2:30 PM"
 });
-
 ```
