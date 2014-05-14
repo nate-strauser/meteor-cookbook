@@ -1,3 +1,11 @@
+# Storing and Displaying Dates With Time Using MomentJS
+
+Dates and times are vital to almost all applications and can be quite tricky to deal with.  Fortunely, using moment and some other packages can make it almost too easy in your meteor apps.
+
+## How should dates be stored in my objects?
+
+You have a couple options that on the surface seem roughly equilvalent:
+
 
 how to store the object
 timestamp
