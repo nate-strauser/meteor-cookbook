@@ -4,7 +4,7 @@ Dates and times are vital to almost all applications and can be quite tricky to 
 
 ----------
 
-Example application running at http://date-time-moment.meteor.com/ with code at 
+Example application running at http://date-time-moment.meteor.com/ with code at https://github.com/nate-strauser/meteor-cookbook/tree/master/date-time-moment/date-example
 
 ----------
 
