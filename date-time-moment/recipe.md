@@ -1,56 +1,60 @@
-# Storing and Displaying Dates With Time Using MomentJS
+# Dates/Times with MomentJS
 
-Dates and times are vital to almost all applications and can be quite tricky to deal with.  Fortunely, using moment and some other packages can make it almost too easy in your meteor apps.
+Dates and times are vital to almost all applications and can be quite tricky to deal with.  Fortunately by using moment and some other packages can make it almost too easy in your meteor apps.
+
+----------
+
+## What are important criteria of Date properties?
+
+1) Dates must specify an exact time without any ambiguity
+2) Dates must be trusted to be accurate, consistent, and not manipulated
 
 ## How should dates be stored in my objects?
 
-You have a couple options that on the surface seem roughly equilvalent:
+The format of the property allows it to meet criteria #1 by the inherit qualities of that representation.
 
+The two most common options that are roughly equivalent are as a Date object or a Unix Offset
 
-how to store the object
-timestamp
-string
-date**
-
-important point is that any date stored has these properties:
-1) it can be trusted to be accurate and not manipulated
-2) it specifies an exact time without any ambiguity
---- a timestamp meets this criteria as it is a number of seconds
---- a unix timestamp meets this criteria as number of milliseconds since epoch
---- a javascript date object specifys date, time, and importantly the timezone
-
-storing as a date is most versitile as it can be used directly in map reduce mongo queries
-
-could do some measurement to determine the performance of each solution - thinking date would come out 1st or 2nd - timestamp requires parsing but uses less space
-
---
-
-moment knows what time zone your device is set to
-
-try it out in the dev console when browsing momentjs.com
+1) As a Date object
 ```
-moment().zone()
+var date = new Date();
+// date -> Wed May 14 2014 14:03:28 GMT-0700 (UTC)
 ```
-
-If you are in EDT, you'll get 240.  EST, 300.  PDT, 420. PST, 480.  etc....
-
-
-If you want to test this out, disable any automatic setting of time or timezone, change the timezone on your device, close and relaunch your browser, then run the above code in the console
+A Date object clearly meets criteria #1 as it specifies date, time, and importantly the timezone.
 
 
-
---
-
-Daylight savings time, oh my
-
---
-
-
-client side dates may be incorrect or manipulated
+2) As a number, which represents the Unix Offset, the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC.
+```
+var date = Date.now();
+// date -> 1400101308998
+```
+An offset meets criteria #1 as it is a number of milliseconds since epoch, from which you can calculate date, time, and adjust for timezone. A timestamp is very similar expect that it is seconds since epoch, rather than milliseconds.
 
 
-- use methods
+#### Which format should you use?
 
+Technically either is acceptable, but using a Date object is slightly superior.
+
+* Date objects are human readable directly from mongo
+* Date objects can be used directly in map reduce mongo queries
+
+A follow on activity here could be a performance evaluation of numerical offsets versus Date objects.  Offsets do have some storage and bandwidth advantages, which in certain applications may balance well against the burden of parsing.
+
+#### What about storing as a string?
+
+It's also quite possible to store a date as a string, either a string of the date object or the offset/timestamp.  Strings don't give you any worthwhile benefit over a date or number, but do provide several disadvantages to utilization and performance, thus storing as a string is not recommended.  Also, depending on exactly what the format of the string is, you may not meet criteria #1 (eg "Wed May 14 2014 14:03:28" has no timezone and thus is ambiguous)
+
+### How can you ensure your dates are accurate, consistent, and not manipulated?
+
+The main problem here is that any date which is construct in the browser is using the time and date of the operating system.  If your application takes dates directly from the browser, then you are vulnerable to a user simply changing the date or time on their device.  Even if your users are not actively trying to provide you with an incorrect date, you must still account for incorrect times on devices.  Essentially, the date and time of any device can not be trusted, thus is it necessary to only utilize the date and time of your server.
+
+How can you structure your application to only use dates from the server?
+* Methods
+* collection2
+* collection-hooks
+
+#### Methods
+http://docs.meteor.com/#methods_header
 ```
 var Things = new Collection('things');
 if (Meteor.isClient) {
@@ -61,10 +65,10 @@ if (Meteor.isClient) {
   };
 
       Meteor.call('createNewThing', function(error, result){
-        ....
+        //....
 
         var thingId = result;
-        ....
+        //....
       });
     }
   });
@@ -72,7 +76,6 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    // code to run on server at startup
     Meteor.methods({
       createNewThing: function (props) {
         props.createdAt = new Date();
@@ -86,7 +89,8 @@ if (Meteor.isServer) {
 This will ensure that the property `createdAt` is set on the server (using server time), right before insertion.  Any inserts that happen to not use this method, may not have the correct date or even have the date at all.
 
 
-- use collection2
+#### collection2
+https://github.com/aldeed/meteor-collection2#autovalue
 ```
 Things = new Meteor.Collection("things", {
     schema: new SimpleSchema({
@@ -141,7 +145,8 @@ if (Meteor.isClient) {
 ```
 In this pattern we do the insert right from the client side, which simplifies our code a good bit.  From the collection2 docs we can learn that even though the autovalue is defined and executed on both client and server, 'the actual value saved will always be generated on the server'.  We also have the added benefit here of always having a correct createdAt and updatedAt date for this any object in this collection.
 
-- use collection hooks
+#### collection-hooks
+https://github.com/matb33/meteor-collection-hooks/#beforeinsertuserid-doc
 ```
 Things = new Meteor.Collection("things");
 
@@ -167,6 +172,35 @@ if (Meteor.isServer) {
 }
 ```
 This pattern gives ensures our objects have the correct date without defining a schema like with collection2.  Care must be taken to ensure that the hook is executing in the correct location. Without the `Meteor.isServer` wrapper or placing the code in the `server/` folder of your app, you could be using the date from the client.  This option also provides that any insert or update will have the correct server time appended to the operation.
+
+-----------
+
+## How do you display dates in your application?
+
+Enter moment.js[http://www.momentjs.com]
+
+Moment is a very powerful library for parsing, formatting, and manipulating dates.  If you've worked with dates in the past, you know how painful and tricky it can be to get what you want from a date.  Moment makes all common date operations quite easy and straightforward.
+
+moment knows what time zone your device is set to
+
+try it out in the dev console when browsing momentjs.com
+```
+moment().zone()
+```
+
+If you are in EDT, you'll get 240.  EST, 300.  PDT, 420. PST, 480.  etc....
+
+
+If you want to test this out, disable any automatic setting of time or timezone, change the timezone on your device, close and relaunch your browser, then run the above code in the console
+
+
+
+--
+
+Daylight savings time, oh my
+
+--
+
 
 
 
