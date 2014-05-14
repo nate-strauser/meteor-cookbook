@@ -32,7 +32,7 @@ if (Meteor.isClient) {
 
   UI.registerHelper("localizedDateAndTime", function(date) {
     if(date)
-      return moment(date).format('l LT'); // "5/23/2014 3:47 PM"
+      return moment(date).format('l LT'); // shorthand for localized format "5/23/2014 3:47 PM"
   });
 }
 

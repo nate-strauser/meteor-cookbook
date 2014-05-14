@@ -205,7 +205,7 @@ Assuming you have a property `createdAt` as specified above, you can display the
 ```
 UI.registerHelper("localizedDateAndTime", function(date) {
 	if(date)
-		return moment(date).format('l LT'); // "5/23/2014 3:47 PM"
+		return moment(date).format('l LT'); // shorthand for localized format "5/23/2014 3:47 PM"
 });
 ```
 
