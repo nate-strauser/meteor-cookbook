@@ -64,11 +64,8 @@ if (Meteor.isClient) {
         name:'My New Thing'
       };
 
-      Meteor.call('createNewThing', function(error, result){
-        //....
-
+      Meteor.call('createNewThing', thingProps, function(error, result){
         var thingId = result;
-        //....
       });
     }
   });
