@@ -3,19 +3,20 @@
 </head>
 
 <body>
-  {{> dates}}
+  <h1>Date Testing</h1>
+  {{> thing}}
 </body>
 
-<template name="dates">
-  <h1>Date Testing</h1>
-  {{#if dateIsSet}}
-  	Click the button to fetch the server date
-  {{else}}
-  	Date as String:
-  	<br>
-  	{{date}}
-  {{/if}}
-  <br>
-  <input type="button" id="fetchServerDate" value="Fetch Server Date" />
-
+<template name="thing">
+	Raw Client Date: {{clientDate}}
+	&nbsp;
+	&nbsp;
+	Raw Server Date: {{serverDate}}
+	<hr>
+	<input type="button" id="createNewThing" value="Create New Thing" />
+	<hr>
+	{{#each things}}
+		{{name}} - Formatted Date: {{localizedDateAndTime createdAt}} - Raw Date: {{createdAt}}
+		<br>
+	{{/each}}
 </template>

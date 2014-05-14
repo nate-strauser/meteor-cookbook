@@ -4,6 +4,10 @@ Dates and times are vital to almost all applications and can be quite tricky to 
 
 ----------
 
+Example application running at http://date-time-moment.meteor.com/ with code at 
+
+----------
+
 ## What are important criteria of Date properties?
 
 1. Dates must specify an exact time without any ambiguity
@@ -164,6 +168,14 @@ if (Meteor.isServer) {
 }
 ```
 This pattern gives ensures our objects have the correct date without defining a schema like with collection2.  Care must be taken to ensure that the hook is executing in the correct location. Without the `Meteor.isServer` wrapper or placing the code in the `server/` folder of your app, you could be using the date from the client.  This option also provides that any insert or update will have the correct server time appended to the operation.
+
+#### Which of these should you use?
+
+Any of the options will meet the need, but collection-hooks has a slight leg up.
+
+* collection-hooks provides the least intrusive option for ensuring date integrity.  It shares the **always correct** qualities of collection2 autovalue fields, without having to define your data schema.  collection-hooks can be used in conjunction with methods and/or collection2.
+* collection2 is very powerful and especially useful in conjunction with autoform.  However, defining a data schema is not always desirable.
+* methods can be used to meet date integrity needs, however special care must be taken to not circumvent your own methods.  Methods also have special properites in comparision to non-method code and thus should be reserved for advanced use cases.
 
 -----------
 
