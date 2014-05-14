@@ -1,0 +1,21 @@
+<head>
+  <title>date-example</title>
+</head>
+
+<body>
+  {{> dates}}
+</body>
+
+<template name="dates">
+  <h1>Date Testing</h1>
+  {{#if dateIsSet}}
+  	Click the button to fetch the server date
+  {{else}}
+  	Date as String:
+  	<br>
+  	{{date}}
+  {{/if}}
+  <br>
+  <input type="button" id="fetchServerDate" value="Fetch Server Date" />
+
+</template>
