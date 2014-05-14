@@ -1,6 +1,6 @@
 # Dates/Times with MomentJS
 
-Dates and times are vital to almost all applications and can be quite tricky to deal with.  Fortunately by using moment and some other packages can make it almost too easy in your meteor apps.
+Dates and times are vital to almost all applications and can be quite tricky to properly utilize.  Fortunately, by using moment and some other packages you can make it quite simple for your meteor applications.
 
 ----------
 
@@ -15,7 +15,7 @@ The format of the property allows it to meet criteria #1 by the inherit qualitie
 
 The two most common options that are roughly equivalent are as a Date object or a Unix Offset
 
-* As a Date object
+**As a Date object**
 ```
 var date = new Date();
 // date -> Wed May 14 2014 14:03:28 GMT-0700 (UTC)
@@ -23,12 +23,12 @@ var date = new Date();
 A Date object clearly meets criteria #1 as it specifies date, time, and importantly the timezone.
 
 
-* As a number, which represents the Unix Offset, the number of milliseconds elapsed since 1 January 1970 00:00:00 UTC.
+**As a number**
 ```
 var date = Date.now();
 // date -> 1400101308998
 ```
-An offset meets criteria #1 as it is a number of milliseconds since epoch, from which you can calculate date, time, and adjust for timezone. A timestamp is very similar expect that it is seconds since epoch, rather than milliseconds.
+An offset meets criteria #1 as it is a number of milliseconds since epoch (1 January 1970 00:00:00 UTC), from which you can calculate date, time, and adjust for timezone. A timestamp is very similar expect that it is seconds since epoch, rather than milliseconds.
 
 
 #### Which format should you use?
