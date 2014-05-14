@@ -48,7 +48,7 @@ It's also quite possible to store a date as a string, either a string of the dat
 
 The main problem here is that any date which is construct in the browser is using the time and date of the operating system.  If your application takes dates directly from the browser, then you are vulnerable to a user simply changing the date or time on their device.  Even if your users are not actively trying to provide you with an incorrect date, you must still account for incorrect times on devices.  Essentially, the date and time of any device can not be trusted, thus is it necessary to only utilize the date and time of your server.
 
-How can you structure your application to only use dates from the server?
+You can use the following techniques and packages to meet criteria #2 of date properties
 * Methods
 * collection2
 * collection-hooks
@@ -62,7 +62,7 @@ if (Meteor.isClient) {
     'click #createNewThing': function () {
       var thingProps = {
         name:'My New Thing'
-  };
+      };
 
       Meteor.call('createNewThing', function(error, result){
         //....
@@ -97,6 +97,7 @@ Things = new Meteor.Collection("things", {
         name:{
         	type:String
     	},
+    	
     	//
     	// ... other schema properties ...
     	//
@@ -134,11 +135,9 @@ Things = new Meteor.Collection("things", {
 if (Meteor.isClient) {
   Template.thing.events({
     'click #createNewThing': function () {
-      var thingProps = {
+      var thingId = Things.insert({
         name:'My New Thing'
-  };
-
-      var thingId = Things.insert(thingProps)
+      });
     }
   });
 }
@@ -153,22 +152,20 @@ Things = new Meteor.Collection("things");
 if (Meteor.isClient) {
   Template.thing.events({
     'click #createNewThing': function () {
-      var thingProps = {
+      var thingId = Things.insert({
         name:'My New Thing'
-  };
-
-      var thingId = Things.insert(thingProps)
+      });
     }
   });
 }
 
 if (Meteor.isServer) {
   Things.before.insert(function(userId, doc){
-	  doc.createdAt = new Date();
-	});
-	Things.before.update(function (userId, doc, fieldNames, modifier, options) {
-	  modifier.$set.updatedAt = new Date();
-	});
+    doc.createdAt = new Date();
+  });
+  Things.before.update(function (userId, doc, fieldNames, modifier, options) {
+    modifier.$set.updatedAt = new Date();
+  });
 }
 ```
 This pattern gives ensures our objects have the correct date without defining a schema like with collection2.  Care must be taken to ensure that the hook is executing in the correct location. Without the `Meteor.isServer` wrapper or placing the code in the `server/` folder of your app, you could be using the date from the client.  This option also provides that any insert or update will have the correct server time appended to the operation.
