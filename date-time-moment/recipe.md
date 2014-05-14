@@ -83,7 +83,7 @@ if (Meteor.isServer) {
 }
 ```
 
-This will ensure that the property `createdAt` is set on the server (using server time), right before insertion.  Any inserts that happen to not use this method, may not have the correct date or even have the date at all.
+This will ensure that the property `createdAt` is set on the server (using server time), right before insertion.  Any inserts that do not use this method, may not have the correct date or even have the date at all.
 
 
 #### [collection2](https://github.com/aldeed/meteor-collection2#autovalue)
