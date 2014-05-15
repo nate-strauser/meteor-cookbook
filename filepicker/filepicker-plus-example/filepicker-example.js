@@ -30,7 +30,8 @@ if (Meteor.isClient) {
           }
         },
         function(FPError){
-          alert(FPError.toString());
+           if(FPError && FPError.code !== 101)
+            alert(FPError.toString());
         }
       );
     }
