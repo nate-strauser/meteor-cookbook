@@ -1,5 +1,7 @@
 # Reactive and Interactive SVGs, optionally using D3
+
 [Demo](http://reactive-svg-d3.meteor.com/) - [Source](svg-example/)
+
 ----------
 
 With the introduction Blaze in Meteor 0.8.0 we now have native SVG rendering support, which gives Meteor applications that ability to easily construct reactive and data driven graphs and charts.  This can be done without D3 at all.  If desired, D3 can be used just for interactivity or to construct the SVG components and process data updates, all while maintaining reactivity.
