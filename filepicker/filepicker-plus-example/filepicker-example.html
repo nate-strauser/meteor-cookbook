@@ -3,11 +3,26 @@
 </head>
 
 <body>
-  {{> hello}}
+	<div style="float:right;">
+	{{> loginButtons align="right"}}
+	</div>
+	{{#if currentUser}}
+		{{> myImage}}
+	{{else}}
+		<p>Create an account and log in to upload a profile image</p>
+	{{/if}}
+  	<hr>
+  	<h4>Images from other users</h4>
+  	{{> profileImages}}
 </body>
 
-<template name="hello">
-  <h1>Hello World!</h1>
-  {{greeting}}
-  <input type="button" value="Click" />
+<template name="myImage">
+	<img src="{{filepickerIdToImageUrl image.filepickerId h=200 w=200 align='faces' fit='crop' placehold_it='200x200'}}"/>
+	<button id="upload">Upload New Profile Image</button>
+</template>
+
+<template name="profileImages">
+	{{#each images}}
+		<img src="{{filepickerIdToImageUrl filepickerId h=100 w=100 align='faces' fit='crop'}}"/>
+	{{/each}}
 </template>

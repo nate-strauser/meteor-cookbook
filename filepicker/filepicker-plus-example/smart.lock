@@ -2,24 +2,13 @@
   "meteor": {},
   "dependencies": {
     "basePackages": {
-      "filepicker-plus": {},
-      "iron-router": {}
+      "filepicker-plus": {}
     },
     "packages": {
       "filepicker-plus": {
         "git": "https://github.com/nate-strauser/meteor-filepicker-plus.git",
-        "tag": "v0.1.0",
-        "commit": "7ea1b1cc627952408a58b28a130f983050c78bf6"
-      },
-      "iron-router": {
-        "git": "https://github.com/EventedMind/iron-router.git",
-        "tag": "v0.7.1",
-        "commit": "d1ffb3f06ea4c112132b030f2eb1a70b81675ecb"
-      },
-      "blaze-layout": {
-        "git": "https://github.com/EventedMind/blaze-layout.git",
-        "tag": "v0.2.4",
-        "commit": "b40e9b0612329288d75cf52ad14a7da64bb8618f"
+        "tag": "v1.2.1",
+        "commit": "80b31d01c959b0687d6ff14ece275cfb9f2f63d2"
       }
     }
   }

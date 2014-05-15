@@ -6,5 +6,6 @@
 standard-app-packages
 autopublish
 insecure
-filepicker
-iron-router
+filepicker-plus
+accounts-ui
+accounts-password
