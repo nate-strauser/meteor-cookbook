@@ -167,7 +167,7 @@ if (Meteor.isServer) {
   });
 }
 ```
-This pattern gives ensures our objects have the correct date without defining a schema like with collection2.  Care must be taken to ensure that the hook is executing in the correct location. Without the `Meteor.isServer` wrapper or placing the code in the `server/` folder of your app, you could be using the date from the client.  This option also provides that any insert or update will have the correct server time appended to the operation.
+This pattern ensures our objects have the correct date without defining a schema like with collection2.  Care must be taken to ensure that the hook is executing in the correct location. Without the `Meteor.isServer` wrapper or placing the code in the `server/` folder of your app, you could be using the date from the client.  This option also provides that any insert or update will have the correct server time appended to the operation.
 
 #### Which of these should you use?
 
