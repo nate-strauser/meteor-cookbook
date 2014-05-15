@@ -1,10 +1,10 @@
 # Dates/Times with MomentJS
 
+[Demo](http://date-time-moment.meteor.com/) - [Source](date-example/)
+
+---------
+
 Dates and times are vital to almost all applications and can be quite tricky to properly utilize.  Fortunately, by using moment and some other packages you can make it quite simple for your meteor applications.
-
-----------
-
-Example application running at http://date-time-moment.meteor.com/ with code at https://github.com/nate-strauser/meteor-cookbook/tree/master/date-time-moment/date-example
 
 ----------
 
