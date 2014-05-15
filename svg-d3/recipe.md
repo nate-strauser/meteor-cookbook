@@ -4,7 +4,7 @@ With the introduction Blaze in Meteor 0.8.0 we now have native SVG rendering sup
 
 ----------
 
-Example application running at http://reactive-svg-d3-meteor.com/ with code at https://github.com/nate-strauser/meteor-cookbook/tree/master/svg/svg-example
+Example application running at http://reactive-svg-d3-meteor.com/ with code at https://github.com/nate-strauser/meteor-cookbook/tree/master/svg-d3/svg-example
 
 ----------
 
