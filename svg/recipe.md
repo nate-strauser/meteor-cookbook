@@ -1,6 +1,6 @@
 # Reactive and Interactive SVGs, optionally using D3
 
-With the introduction of native SVG support as part of the Blaze rendering engine, Meteor applications can now quite easily construct reactive and data driven graphs and charts.  This can be done without D3 at all.  If desired, D3 can be used just for interactivity or to construct the SVG componenets and process data updates, all while maintaining reactivity.
+With the introduction Blaze in Meteor 0.8.0 we now have native SVG rendering support, which gives Meteor applications that ability to easily construct reactive and data driven graphs and charts.  This can be done without D3 at all.  If desired, D3 can be used just for interactivity or to construct the SVG components and process data updates, all while maintaining reactivity.
 
 ----------
 
@@ -16,7 +16,7 @@ Example application running at http://reactive-svg-d3-meteor.com/ with code at h
 
 ### Integration Level #1
 
-Useful for the most simple of data backed SVG images. Directly code a raw SVG is not trivial for anything beyond very simple graphs or drawings.  Bar graphs and scatter plots are quite doable, but simplistic.  Going beyond this simplistic data represntations into more complex one is best suited for a library like D3.
+Useful for the most simple of data backed SVG images. Directly crafting a raw SVG is not trivial for anything beyond very simple graphs or drawings.  Simplistic bar graphs and scatter plots are quite doable.  Going beyond these basic data representations into more complex ones is best suited for a library like D3.
 
 #### Simple Scatter Plot
 ```
@@ -61,7 +61,7 @@ Our controller code here is rather simple also.  For the data we are just return
 	</g>
 </svg>
 ```
-This markup is a little more complicated in that we are using some transform directives to properly position our elements.Positioning the text element here is not trivial, it must be precisly positioned using the attributes of the rectable element.  The complexity to render such a simple graph makes it clear that a library like D3 is rather useful for anything but the most simple data representations.
+This markup is a little more complicated in that we are using the transform directives to properly position our elements.  Positioning the text element here is not trivial, it must be precisely positioned using the attributes of the rectangle element.  The complexity to render such a simple graph makes it clear that a library like D3 is rather useful for anything but the most simple data representations.
 
 ```
 Template.simpleVerticalBarGraph.events({
@@ -82,15 +82,15 @@ Template.simpleVerticalBarGraph.helpers({
 	}
 });
 ```
-Like the Scatter Plot, this controller code is quite simple.  Since the SVG is reactive, we just update the underlying data and the graph redraws.
+Like the scatter plot, this controller code is quite simple.  Since the SVG is reactive, we just update the underlying data and the graph redraws.
 
 ### Integration Level #2
 
-Useful for leveraging the blaze rendering engine for data driven updates while layering on D3 to provide interactivity.  We still have to manually control the display and thus complex graphs are difficult, but not impossible. 
+Useful for leveraging the Blaze rendering engine for data driven updates while layering on D3 to provide interactivity.  We still have to manually control the display and thus complex graphs are difficult, but not impossible. 
 
 #### Draggable Nodes
 
-Here we have a simplisitic SVG element that consists of a set of node drawn as circles and a set of connectors drawn as lines that link nodes to one another.
+Here we have a simplistic SVG element that consists of a set of node drawn as circles and a set of connectors drawn as lines that link nodes to one another.
 
 ```
 <svg id="dragableGraph" width="800" height="600">
@@ -115,7 +115,7 @@ This is our base for the graph.  Its fairly minimal, just looping over 2 sets of
 </template>
 ```
 
-Here we have our sub-templates used for each node and connector.  The node properties are read directly from the object itself, while the source and target x/y coordinates are pulled from helpers for the connectors.
+Here we have our sub-templates used for each node and connector.  The node properties are read directly from the object itself, while the source and target X/Y coordinates are pulled from helpers for the connectors.
 
 ```
 //helpers for connectors are reactive, so any changes to nodes redraws connectors also
@@ -146,8 +146,7 @@ Template.draggableGraphConnector.helpers({
     }
 });
 ```
-
-These helpers look up the source or target node and provide the x or y coordinate of that object.  This code is fairly simple as our nodes are circles, thus we can point to the x/y coordinate of the node as the coordinates are the center of the shape.  If we used rectangles we would have to do some additional calculations as rectangle coordinates are the bottom left of the shape.
+These helpers look up the source or target node and provide the X or Y coordinate of that object.  This code is fairly simple as our nodes are circles, thus we can point to the X/Y coordinate of the node as the coordinates are the center of the shape.  If we used rectangles we would have to do some additional calculations as rectangle coordinates are the bottom left of the shape.
 
 
 ```
@@ -172,10 +171,9 @@ Template.draggableGraphNode.rendered = function ( ) {
     //attach drag handler
 };
 ```
+This is the most interesting part of this example as it defines the boundary between Meteor and D3.  In the rendered callback, we are attaching the `nodeDrag` function to each node element.  The `nodeDrag` function enables drag and drop behavior on the node via the `drag()` call.  We then listen for the `drag` event to fire, detect any change in X or Y position, then update the node object with the new coordinates, which triggers Blaze to update of the SVG node element, corresponding the drag movement.  It's important to note that D3 does not actually move the element, if we comment out the `Nodes.update(...)` call in the drag handler, nothing in the graph will change.  The event still fires, but the elements position does not change.  D3 handles only the drag event, while Meteor handles all rendering.
 
-This is the most interesting part of this example as it defines the boundary between what meteor does and what D3 does.  In the rendered callback, we are attaching the `nodeDrag` function to each node element.  The `nodeDrag` function enables drag and drop behavior on the node via the `drag()` call.  We then listend for the `drag` event to fire, detect any change in X or Y position, then update the node object with the new coordinates, which triggers a blaze update of the SVG node element, corresponding the drag movement.  It's important to note that D3 does not actually move the element, if we comment out the `Nodes.update(...)` call in the drag handler, nothing in the graph will change.  The event still fires, but the elements position does not change.
-
-It should be easy to imagine a use case of this pattern where the owner of a graph can drag some elements, saving that update to the database, while another user is simply having the SVG update for them, showing the actions of the owner to all viewers.  This is trivial to construct, all you have to do is only attach the drag handler if the current user is the owner.  Anyone but the owner, just has a live updating SVG that doesnt use D3 at all.
+It should be easy to imagine a use case of this pattern where the owner of a graph can drag an element, saving that update to the database, while another user is simply having the SVG update for them, showing the actions of the owner to all viewers.  This is trivial to construct, all you have to do is only attach the drag handler if the current user is the owner.  Anyone who is not the owner, just has a live updating SVG that does not use D3 at all.
 
 
 ### Integration Level #3
@@ -184,7 +182,7 @@ Useful for producing the most advanced and beautiful charts that D3 is capable o
 
 #### Animated Donut Chart
 
-Lets take on of the many D3 examples and alter it so that it is backed by data from a meteor collection and that it reactively updates as data changes are made.  This example http://bl.ocks.org/dbuezas/9306799 has some nice animation code that we can build on.
+Lets take one of the many D3 examples and alter it so that it is backed by data from a Meteor collection and that it reactively updates as data changes are made.  This  [donut chart example](http://bl.ocks.org/dbuezas/9306799) has some nice animation code that we can build on.
 
 ```
 <svg id="animatedDonutChart" width="800" height="600">
@@ -232,8 +230,7 @@ Template.animatedDonutChart.rendered = function(){
 	});
 };
 ```
-
-Here we have our rendered callback that inits the D3 object for the intial rendering and subsequent updates.  Most of the D3 specific code is unchanged from the original, with some slight reworking to fit into the meteor template structure.  The important part here is the `Deps.autorun`, with this we declare a reactive query `Sections.find(...)`.  We use the `fields` specifiy to reduce redraws, turn the query cursor into an array with `fetch`, and finally pass that array to the `updateChartData` function which sets or updates the actual SVG element via D3 commands.  `Deps.autorun` is very powerful for easily reacting to data changes in collections, see http://docs.meteor.com/#deps_autorun for more details.
+Here we have our rendered callback that inits the D3 object for the initial rendering and subsequent updates.  Most of the D3 specific code is unchanged from the original, with some slight reworking to break it into the Meteor template structure.  The important part here is the `Deps.autorun`, with this we declare a reactive query `Sections.find(...)`.  We use the `fields` specifier to reduce redraws, turn the query cursor into an array with `fetch()`, and finally pass that array to the `updateChartData` function which sets or updates the actual SVG element via D3.  `Deps.autorun` is very powerful for easily reacting to data changes in collections, see http://docs.meteor.com/#deps_autorun for more details.
 
 ```
 var updateChartData = function(data) {
@@ -328,17 +325,21 @@ var updateChartData = function(data) {
 		.remove();
 };
 ```
-
-Here we have our `updateChartData` function which has only been just barely changed to accomdate the color propery being part of the object rather than an ordinal scale as it was in the original.  The function was named `change` in the original D3 example.
+Here we have our `updateChartData` function which has only been just barely changed to accommodate the color property being part of the object rather than an ordinal scale as it was in the original.  The function was named `change` in the original D3 example.
 
 ```
-Sections.find({}).forEach(function(section){
-	//update the value of the section
-	Sections.update({_id:section._id},{$set:{value:Math.random()}});
+Template.animatedDonutChart.events({
+	'click input':function(){
+		//loop through sections
+		Sections.find({}).forEach(function(section){
+			//update the value of the section
+			Sections.update({_id:section._id},{$set:{value:Math.random()}});
+		});
+	}
 });
 ```
 
-Here is the event handler code attached to the 'Randomize Values' button.  It simply assigns a new random value to each section.  Since we've used `Deps.autorun` we already reactivity in place, we just need to update the underlying data and the graph automatically updates. 
+Here is the event handler code attached to the 'Randomize Values' button.  It simply assigns a new random value to each section object.  Since we've used `Deps.autorun`, we already have reactivity in place, we simply just update the underlying data and the graph automatically updates. 
 
 
 Let's take a look at the SVG code that D3 generates for this Donut Chart
