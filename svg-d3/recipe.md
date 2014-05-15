@@ -362,6 +362,7 @@ It's quite clear that this code is rather complex, even just looking at the slic
 
 ### TODO
 explain SVG acronym and format    
-explain D3 - what is it, how does it work    
+explain D3 - what is it, how does it work   
+add images of charts, graphs    
 could add hyperlinks from index to header of expanded concept    
 summarize - which way to go
