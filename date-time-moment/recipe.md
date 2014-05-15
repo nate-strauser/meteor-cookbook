@@ -50,7 +50,7 @@ It's also quite possible to store a date as a string, either a string of the dat
 
 ### How can you ensure your dates are accurate, consistent, and not manipulated?
 
-The main problem here is that any date which is construct in the browser is using the time and date of the operating system.  If your application takes dates directly from the browser, then you are vulnerable to a user simply changing the date or time on their device.  Even if your users are not actively trying to provide you with an incorrect date, you must still account for incorrect times on devices.  Essentially, the date and time of any device can not be trusted, thus is it necessary to only utilize the date and time of your server.
+The main problem here is that any date which is constructed in the browser is using the time and date of the operating system.  If your application takes dates directly from the browser, then you are vulnerable to a user simply changing the date or time on their device.  Even if your users are not actively trying to provide you with an incorrect date, you must still account for incorrect times on devices.  Essentially, the date and time of any device can not be trusted, thus is it necessary to only utilize the date and time of your server.
 
 You can use the following techniques and packages to meet criteria #2 of date properties
 * Methods
