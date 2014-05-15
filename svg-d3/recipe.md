@@ -339,7 +339,7 @@ Template.animatedDonutChart.events({
 });
 ```
 
-Here is the event handler code attached to the 'Randomize Values' button.  It simply assigns a new random value to each section object.  Since we've used `Deps.autorun`, we already have reactivity in place, we simply just update the underlying data and the graph automatically updates. 
+Here is the event handler code attached to the 'Randomize Values' button.  It simply assigns a new random value to each section object.  Since we've used `Deps.autorun`, we already have reactivity in place, we simply update the underlying data and the graph automatically updates. 
 
 
 Let's take a look at the SVG code that D3 generates for this Donut Chart
