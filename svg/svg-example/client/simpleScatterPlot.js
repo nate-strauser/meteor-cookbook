@@ -13,7 +13,6 @@ createScatterPlotData();
 Template.simpleScatterPlot.events({
   'click input': function () {
     ScatterPoints.find({}).forEach(function(point){
-      var value = Math.floor(Math.random()*300);
       ScatterPoints.update({_id:point._id},{$set:{
         x:Math.floor(Math.random()*300),
         y:Math.floor(Math.random()*400)

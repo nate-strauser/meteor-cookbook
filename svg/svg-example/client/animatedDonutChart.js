@@ -1,10 +1,22 @@
 var Sections = new Meteor.Collection(null);
 var colors = ["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"];
+var labels = ["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"];
 var svg, pie, key, arc, outerArc;
 
 var width = 800,
     height = 600,
 	radius = Math.min(width, height) / 2;
+
+//load in initial data
+_.each(labels, 
+	function(label){
+		Sections.insert({
+			label: label,
+			color: Random.choice(colors),
+			value: Math.random()
+		})
+	}
+);
 
 Template.animatedDonutChart.events({
 	'click input':function(){
@@ -43,17 +55,6 @@ Template.animatedDonutChart.rendered = function(){
 		.outerRadius(radius * 0.9);
 
 	svg.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-	//load in initial data
-	_.each(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"], 
-		function(label){
-			Sections.insert({
-				label: label,
-				color: Random.choice(colors),
-				value: Math.random()
-			})
-		}
-	);
 
 	//set up a deps autorun to listen for data updates, redrawing graph as needed
 	Deps.autorun(function(){

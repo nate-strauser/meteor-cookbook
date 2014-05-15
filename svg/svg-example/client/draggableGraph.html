@@ -1,6 +1,6 @@
 <template name="dragableGraph">
     <h4>Draggable Nodes -  <small>(click and drag nodes)</small></h4>
-    <svg id="dragableGraph" preserveAspectRatio="xMidYMid slice" width="800" height="600">
+    <svg id="dragableGraph" width="800" height="600">
         {{#each connectors}}
             {{>draggableGraphConnector}}
         {{/each}}
