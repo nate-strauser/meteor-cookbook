@@ -4,7 +4,7 @@
 
 ---------
 
-Dates and times are vital to almost all applications and can be quite tricky to properly utilize.  Fortunately, by using moment and some other packages you can make it quite simple for your meteor applications.
+Dates and times are vital to almost all applications and can be quite tricky to properly utilize.  Fortunately, by using Moment and some other packages you can make it quite simple for your meteor applications.
 
 ----------
 
