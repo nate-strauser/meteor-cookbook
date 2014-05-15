@@ -1,0 +1,9 @@
+<template name="simpleScatterPlot">
+	<h4>Simple Scatter Plot</h4>
+	<svg class="chart" width="400" height="300">
+		{{#each points}}
+			<circle cx="{{x}}" cy="{{y}}" r="5"/>
+		{{/each}}
+	</svg>
+	<input type="button" value="Regenerate" />
+</template>

@@ -1,0 +1,20 @@
+<template name="dragableGraph">
+    <h4>Draggable Nodes -  <small>(click and drag nodes)</small></h4>
+    <svg id="dragableGraph" preserveAspectRatio="xMidYMid slice" width="800" height="600">
+        {{#each connectors}}
+            {{>draggableGraphConnector}}
+        {{/each}}
+        {{#each nodes}}
+            {{>draggableGraphNode}}
+        {{/each}}
+    </svg>
+    <input type="button" value="Regenerate" />
+</template>
+
+<template name="draggableGraphNode">
+    <circle id="node_{{_id}}" cx="{{x}}" cy="{{y}}" class="node" data-id="{{_id}}" r="10"/>
+</template>
+
+<template name="draggableGraphConnector">
+    <line id="connector_{{_id}}" class="connector" data-id="{{_id}}" x1="{{sourceX}}" y1="{{sourceY}}" x2="{{targetX}}" y2="{{targetY}}" />
+</template>

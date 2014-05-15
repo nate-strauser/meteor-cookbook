@@ -231,3 +231,10 @@ UI.registerHelper("calendarTime", function(date) {
 		return moment(date).calendar(); // "Yesterday 2:30 PM"
 });
 ```
+
+
+### TODO
+
+performance test of date vs offset with graphs
+moment helpers package
+does offset have issue with 2038?

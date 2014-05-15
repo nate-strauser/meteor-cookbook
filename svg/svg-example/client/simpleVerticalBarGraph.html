@@ -1,0 +1,14 @@
+<template name="simpleVerticalBarGraph">
+	<h4>Simple Vertical Bar Graph - <small><a href="http://bost.ocks.org/mike/bar/2/">View Inspiration</a></small></h4>
+	<svg class="chart" width="400" height="300">
+		<g transform="rotate(-90) translate(-300, 0)">
+			{{#each points}}
+				<g transform="translate(0,{{bar}})">
+					<rect width="{{value}}" height="75"></rect>
+					<text x="{{text}}" y="9.5" dy=".35em">{{value}}</text>
+				</g>
+			{{/each}}
+		</g>
+	</svg>
+	<input type="button" value="Regenerate" />
+</template>

@@ -1,0 +1,35 @@
+/* CSS declarations go here */
+.chart rect {
+  fill: steelblue;
+}
+
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+
+.connector{
+	stroke:steelblue;
+	stroke-width:2;
+	stroke-opacity:0.9;
+}
+
+.node{
+	stroke: black;
+	fill: gray;
+	cursor: move;
+}
+
+
+path.slice{
+	stroke-width:2px;
+}
+
+polyline{
+	opacity: .3;
+	stroke: black;
+	stroke-width: 2px;
+	fill: none;
+}
