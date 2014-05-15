@@ -188,7 +188,7 @@ Moment is a very powerful library for parsing, formatting, and manipulating date
 
 #### What about time zones and daylight savings time?
 
-Moment can automatically detect what time zone your device is set to as well as wether or not daylight savings time is in effect. Try it out in the dev console when browsing momentjs.com
+Moment can automatically detect what time zone your device is set to, as well as whether or not daylight savings time is in effect. Try it out in the dev console when browsing momentjs.com
 ```
 moment().zone()
 ```
