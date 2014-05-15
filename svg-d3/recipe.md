@@ -178,7 +178,7 @@ It should be easy to imagine a use case of this pattern where the owner of a gra
 
 ### Integration Level #3
 
-Useful for producing the most advanced and beautiful charts that D3 is capable of.  These charts can easily have animation for data changes and interactivity.  Blaze is not very involved in the actual rendering of the chart as D3 handles the SVG manipulation and creation.  However, Meteor is still involved as it manages the backing data and orchestrates the rendering calls.
+Useful for producing the most advanced and beautiful charts that D3 is capable of generating.  These advanced charts can easily have animation for data changes and interactivity.  Blaze is not very involved in the actual rendering of the chart as D3 handles the SVG manipulation and creation.  However, Meteor is still involved as it manages the backing data and orchestrates the rendering calls.
 
 #### Animated Donut Chart
 
