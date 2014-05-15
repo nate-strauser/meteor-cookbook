@@ -362,3 +362,4 @@ It's quite clear that this code is rather complex, even just looking at the slic
 
 ### TODO
 explain SVG acronym and format
+explain D3 - what is it, how does it work
