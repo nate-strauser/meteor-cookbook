@@ -359,3 +359,6 @@ Let's take a look at the SVG code that D3 generates for this Donut Chart
 ```
 
 It's quite clear that this code is rather complex, even just looking at the slices.  While this surely could be done directly with Blaze using template code, its not likely worth the effort, especially given the D3 is quite performant and capable of producing this for us, while still maintaining reactivity.
+
+### TODO
+explain SVG acronym and format
