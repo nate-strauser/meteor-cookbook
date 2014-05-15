@@ -1,6 +1,6 @@
 # Reactive and Interactive SVGs, optionally using D3
 
-Dates and times are vital to almost all applications and can be quite tricky to properly utilize.  Fortunately, by using moment and some other packages you can make it quite simple for your meteor applications.
+With the introduction of native SVG support as part of the Blaze rendering engine, Meteor applications can now quite easily construct reactive and data driven graphs and charts.  This can be done without D3 at all.  If desired, D3 can be used just for interactivity or to construct the SVG componenets and process data updates, all while maintaining reactivity.
 
 ----------
 
