@@ -160,6 +160,7 @@ Once you have your CDN configured, add the `cdn_domain` setting to your applicat
 
 ### TODO
 * Usage in forms
+* add cdn to example app
 * examples: video, serve file from s3
 * show strucutre of inkblob, save all to object in example
 * Usage with autoform
