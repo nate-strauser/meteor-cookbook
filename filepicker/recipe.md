@@ -164,4 +164,5 @@ Once you have your CDN configured, add the `cdn_domain` setting to your applicat
 * show strucutre of inkblob, save all to object in example
 * Usage with autoform
 * Exports/Downloads
-* Making a drop pane
+* Making a drop pane  
+* explain CDN and D3
