@@ -106,7 +106,7 @@ Template.myImage.events({
 This is our event handler for the upload button.  Upon click, we tell filepicker to 'pick' a file.  Here we have specified options to limit the upload mimetypes to the image formats we desire and disallowed multiple uploads.  The first callback is the successful upload of a file to filepicker, which receives an [InkBlob](https://developers.inkfilepicker.com/docs/web/#inkblob) as an argument.  The last callback is if an error occured.  For this simple demo, we just alert the user if the error code is not 101.  101 code error is thrown if a user closes the upload dialog without uploading, which isn't really an error that we care to alert the user about.
 
 ### What to save in the database
-We could save this entire returned InkBlob object to the collection, but for this example we just extract the `filepickerId` which is the last segment of the `url` property.  If you are storing files to a backend service (s3, azure, etc) you will likely want to keep the `key` property, which is the key of the file on the storage service.
+We can just save this entire returned InkBlob object to the collection, but for this example we also extract the `filepickerId` which is the last segment of the `url` property.  If you are storing files to a backend service (s3, azure, etc) you will likely want to keep the `key` property, which is the key of the file on the storage service.
 
 What you should save depends on what you want to do with the files after they are uploaded.  If you are just doing image upload and display, you can get away with just the `filepickerId`.  If you plan on directly interacting with the file on the backend storage service (eg file manipulation, video conversion, etc), you'll want to save most, if not all of the properties of the InkBlob.
 
@@ -160,9 +160,8 @@ Once you have your CDN configured, add the `cdn_domain` setting to your applicat
 
 ### TODO
 * Usage in forms
-* add cdn to example app
 * examples: video, serve file from s3
-* show strucutre of inkblob, save all to object in example
+* show strucutre of inkblob
 * Usage with autoform
 * Exports/Downloads
 * Making a drop pane  

@@ -7,24 +7,29 @@ if (Meteor.isClient) {
 
   Template.myImage.events({
     'click #upload': function () {
-      filepicker.pick(
+      filepicker.pickAndStore(
         {
           mimetypes: ['image/gif','image/jpeg','image/png'],
           multiple: false
+        },{
+          access:"public"
         },
-        function(InkBlob){
+        function(InkBlobs){
+          var InkBlob = _.first(InkBlobs);
           var image = Images.findOne({userId:Meteor.userId()});
           if(image){
             Images.update({_id:image._id},
             {
               $set:{
-                filepickerId:_.last(InkBlob.url.split("/"))
+                filepickerId:_.last(InkBlob.url.split("/")),
+                inkBlob:InkBlob
               }  
             });
           }else{
             Images.insert({
               userId:Meteor.userId(),
               filepickerId:_.last(InkBlob.url.split("/")),
+              inkBlob:InkBlob,
               createdAt:new Date() //this isnt guarnteed accurate, but its ok for this simple demo
             });
           }

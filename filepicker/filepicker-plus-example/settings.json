@@ -1,7 +1,8 @@
 {
   "public" : {
     "filepicker":{
-      "key":"A4BpFCKFJTH2AgMSE7Tw0z"
+      "key":"A4BpFCKFJTH2AgMSE7Tw0z",
+      "cdn_domain":"dctip7yclfzv9.cloudfront.net"
     }
   }
 }
