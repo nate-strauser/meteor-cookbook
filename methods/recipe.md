@@ -1,7 +1,5 @@
 # Methods are powerful yet easily overused
 
-[Demo TBD](#) - [Source TBD](#)
-
 ----------
 
 Methods provide a powerful capability to Meteor applications that is needed for certain complex functions.  However, method code does not follow the same rules as the rest of a Meteor application and conducting simple operations like inserts via methods brings about problems.  These considerations make methods considered powerful and neccesary but problematic in certain situations.

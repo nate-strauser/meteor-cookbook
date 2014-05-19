@@ -7,4 +7,4 @@ meteor-cookbook
 
 * [Using Filepicker for uploads and on demand image conversion](filepicker/recipe.md)
 
-* [Methods are powerful yet easily overused (WIP)](methods/recipe.md)
+* [Methods are powerful yet easily overused](methods/recipe.md)
