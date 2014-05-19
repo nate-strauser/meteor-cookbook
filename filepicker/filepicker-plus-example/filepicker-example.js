@@ -16,6 +16,7 @@ if (Meteor.isClient) {
         },
         function(InkBlobs){
           var InkBlob = _.first(InkBlobs);
+          console.log(JSON.stringify(InkBlob));
           var image = Images.findOne({userId:Meteor.userId()});
           if(image){
             Images.update({_id:image._id},

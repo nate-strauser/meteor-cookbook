@@ -4,7 +4,12 @@
 
 ----------
 
-With the introduction of Blaze in Meteor 0.8.0 we now have native SVG rendering support; which gives Meteor applications the ability to easily construct reactive and data driven graphs and charts.  This can be done without D3 at all.  If desired, D3 can be used just for interactivity or to construct the SVG components and process data updates, all while maintaining reactivity.
+With the introduction of Blaze in Meteor 0.8.0 we now have native SVG rendering support; which gives Meteor applications the ability to easily construct reactive and data driven graphs and charts.  This can be done without [D3](http://www.d3js.org) (Data Driven Documents) at all.  If desired, D3 can be used just for interactivity or to construct the SVG components and process data updates, all while maintaining reactivity.
+
+If you are not familiar with SVG (Scalable Vector Graphics), take a look at this [wikipedia article](http://en.wikipedia.org/wiki/Scalable_Vector_Graphics).  Essentially, SVG is a XML based format for defining a two dimensional image via components (lines, circles, etc) that can be scaled without degredation and rendered in all modern web browsers.  Its a image/graphic that can be rendered directly from XML code, rather than a binary format like PNG, JPG, etc.
+
+If you new to D3, it is essentially a javascript library for manipulating documents based on data.  These manipulations are accomplised via HTML, SVG, and CSS. Also, be sure to check out some of the [examples](https://github.com/mbostock/d3/wiki/Gallery) to see for yourself the full range of visualizations that D3 can produce.
+
 
 ----------
 
@@ -360,10 +365,22 @@ Let's take a look at the SVG code that D3 generates for this Donut Chart
 
 It's quite clear that this code is rather complex, even just looking at the slices.  While this surely could be done directly with Blaze using template code, its not likely worth the effort, especially given the D3 is quite performant and capable of producing this for us, while still maintaining reactivity.
 
+## Which option is right for me and my project?
+
+The correct or best choice for your needs is dependent on your specific circumstances.  Its not really possible to make a one size fits all recommendation here.
+
+Should you use D3 at all?  If you want interactivity or a complex presentation, if yes, you most certainly should.  
+
+Should you use D3 for even a very simple graph? If you are comfortable with D3 and you do not have any major performance conerns (like rendering many simple graphs at once), then you can use D3 without concern. 
+
+Should you forgoe D3 and craft your own complex graphic directly via SVG? If you need truly high performance updates to the graphic and are comfortable with the difficulity of complex shapes, then yes, you can leave out D3 and roll your own solution.
+
+You'll have to evaluate your needs and consider the implications of each particular option to decide what works best for your needs.  Hopefully this article has armed you with enough awareness of the available options to effectively make that decision.
+
+
 ### TODO
-explain SVG acronym and format    
-explain D3 - what is it, how does it work   
 add images of charts, graphs   
 custom icon with number example    
 could add hyperlinks from index to header of expanded concept    
-summarize - which way to go
+add deps.autorun setup/teardown
+add simple spark line example

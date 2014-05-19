@@ -108,6 +108,19 @@ This is our event handler for the upload button.  Upon click, we tell filepicker
 ### What to save in the database
 We can just save this entire returned InkBlob object to the collection, but for this example we also extract the `filepickerId` which is the last segment of the `url` property.  If you are storing files to a backend service (s3, azure, etc) you will likely want to keep the `key` property, which is the key of the file on the storage service.
 
+```
+//sample InkBlob from pickAndStore call
+{
+	"url":"https://www.filepicker.io/api/file/UTpeN1oRS6HXr0zfEhgg",
+	"filename":"image.jpg",
+	"mimetype":"image/jpeg",
+	"size":245502,
+	"key":"VxlxceqlQ2uqpHJlRUPm_image.jpg",
+	"container":"meteor-filepicker-cookbook",
+	"isWriteable":true
+}
+``` 
+
 What you should save depends on what you want to do with the files after they are uploaded.  If you are just doing image upload and display, you can get away with just the `filepickerId`.  If you plan on directly interacting with the file on the backend storage service (eg file manipulation, video conversion, etc), you'll want to save most, if not all of the properties of the InkBlob.
 
 ### Displaying a previously uploaded image
@@ -153,7 +166,9 @@ filepicker.pickAndStore(
 
 ### Using a CDN
 
-To speed up file load time and decrease your usage of image conversion, it is highly recommended that you set up a CDN per the filepicker directions https://developers.inkfilepicker.com/docs/cdn/ .  If your files wont be changing after upload, which is typical, you should set the 'Minimum TTL' to a rather high value, 2592000 (1 Month) works well and should prevent converting the same image to the same specifications within a billing period.
+To speed up file load time and decrease your usage of image conversion, it is highly recommended that you set up a [CDN (Content Delivery Network)](http://en.wikipedia.org/wiki/Content_delivery_network) per the filepicker directions https://developers.inkfilepicker.com/docs/cdn/ .  Using a CDN like [Amazon's cloudfront](http://aws.amazon.com/cloudfront/) will provide two main benefits:  files will be delivered to your users quicker than if served directly from S3 and any image conversions will be cached, greatly reducing load times after the initial on demand conversion.
+
+If your files wont be changing after upload, which is typical, you should set the 'Minimum TTL' to a rather high value, 2592000 (1 Month) works well and should prevent converting the same image to the same specifications within a billing period.
 
 Once you have your CDN configured, add the `cdn_domain` setting to your application settings file.  The helpers will look for this setting, if found, they will return a url which points to your cdn instead of filepicker.com.
 
@@ -161,8 +176,6 @@ Once you have your CDN configured, add the `cdn_domain` setting to your applicat
 ### TODO
 * Usage in forms
 * examples: video, serve file from s3
-* show strucutre of inkblob
 * Usage with autoform
 * Exports/Downloads
 * Making a drop pane  
-* explain CDN and D3

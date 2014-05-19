@@ -234,7 +234,6 @@ UI.registerHelper("calendarTime", function(date) {
 
 
 ### TODO
-
-performance test of date vs offset with graphs
-moment helpers package
-does offset have issue with 2038?
+* performance test of date vs offset with graphs
+* moment helpers package
+* does offset have issue with year 2038? http://en.wikipedia.org/wiki/Unix_time#Notable_events_in_Unix_time
