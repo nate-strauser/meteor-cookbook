@@ -16,83 +16,47 @@
 
 ## Introduction to Dates
 
-Dates in javascript 
 
-what really is a date
+JavaScript has a object type, `Date`, which represents a particular date and time, accurate to within a millisecond.
 
-
-From the [Mozilla Javascript Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
->
+> [Mozilla Javascript Reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date)
+> 
 > The JavaScript date is  based on a time value that is milliseconds since midnight 01 January, 1970 UTC. A day holds 86,400,000 milliseconds. The JavaScript Date object range is -100,000,000 days to 100,000,000 days relative to 01 January, 1970 UTC.
 
-Mongo uses the same representation
-http://docs.mongodb.org/manual/reference/bson-types/#date
+
+
+> [MongoDB Docs](http://docs.mongodb.org/manual/reference/bson-types/#date)
+>
+
 > Date is a 64-bit integer that represents the number of milliseconds since the Unix epoch (Jan 1, 1970). This results in a representable date range of about 290 million years into the past and future.
 
-if we query mongo, we can see:
+
+#### Creating Date Objects
+
+In any JavaScript console, you can create a new date and inspect some of its properties.
+
 ```
-//db.things.find({}).pretty()
-...
-{
-  "name" : "My Thing #15",
-  "_id" : "tuXhLeskHvKvaaeT6",
-  "createdAt" : ISODate("2014-05-14T22:39:38.519Z")
-}
-...
+var date = new Date();  //create a new date that represents the current date and time
+date.toString(); // -> "Thu May 22 2014 16:47:19 GMT-0400 (EDT)"
+date.toJSON();   // -> "2014-05-22T20:47:19.039Z"
+date.valueOf();  // -> "1400791639039"
 ```
+If you wanted to create a date object from a known and specific date and/or time, you can easily do that via the constructor parameters.
 
-EJSON will translate the date to it
-```
-EJSON.stringify(new Date())
-"{"$date":1400779059471}"
-```
-when parsed it gets turned back into a date object
-
-EJSON has support for native date objects
-http://docs.meteor.com/#ejson
-
-Regardless of the underlying reprenestion used by mongo and ejson, both will always provide the typical date operations and methods - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
-
-
-if we create a new date we can inspect the properties of is
-```
-var date = new Date();
-
-console.log(date); //calls .toString 
-
-Date object
-```
-This means that the Date object type is simply a wrapper around a numerical value, which is a [Unix Offset](http://en.wikipedia.org/wiki/Unix_time).  This wrapper provides additional functionality, like getting and setting the hour or month of the date, that is useful and that would be difficult to accomplish by manually interacting with the offset itself.
-
-
-if you wanted to create a date object from a known and specific date and/or time, you can easily do that via the constructor options
 ```
 var startOf2014 = new Date(2014,1,1);
 ```
-See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date for more examples
-
-how is thi
-
-
-native js support for dates is limited and difficult to use
+See the [Mozilla docs on Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) for more examples.
 
 
 
-Dates and times are vital to almost all applications and can be quite tricky to properly utilize.  Fortunately, by using Moment and some other packages you can make it quite simple for your meteor applications.
-
-
-
+From these properties and the mozilla/mongo docs, it is clear that the `Date` object type is a wrapper around a numerical value, which is a [Unix Offset](http://en.wikipedia.org/wiki/Unix_time).  This wrapper provides additional functionality, like getting and setting the hour or month of the date, that is useful and that would be difficult to accomplish by manually interacting with the offset itself.
 
 ----------
 
-
-
-
-
-
 ## Storing Dates
 
-The best way to represent dates on your collection documents is by directly using the date object type.  A date that represents the current date and time can be generated via a call to the `new Date()` constructor. 
+The best way to represent dates on your collection documents is by directly using the date object type.  A date that represents the current date and time can be generated via a call to the `new Date()` constructor.  Meteor applications have full stack support for using `Date` objects.  The client and server runtimes are javascript, which natively supports `Date` objects.  The [EJSON](http://docs.meteor.com/#ejson) extension to JSON in Meteor core provides support for Date objects throughout your application code.  MongoDB also has support for Date objects.  Since we have proper support for `Date` objects throughout the entire stack, it makes sense to use these objects.
 
 ```
 var date = new Date();
@@ -113,7 +77,7 @@ Dates objects can also easily be used in a collection query.
 ```
 var startDate = new Date(2014,1,1);
 var endDate = new Date(2015,1,1);
-var result = Things.find({
+var results = Things.find({
   createdAt:{
      $lt:endDate,
      $gte:startDate
@@ -163,7 +127,7 @@ It is also possible to use Meteor methods or the collection2 package to accompli
 
 ## Automatic Document Timestamping
 
-If you want your collection documents to have an automatically generated date upon insertion or update, the pattern above can be slightly extended to provide that feature.
+If you want your collection documents to have an automatically generated date upon insertion or update, the collection-hooks usage pattern above can be slightly extended to provide that feature.
 
 ```
 // server/hooks.js or wrapped in if(Meteor.isServer){...}
@@ -250,9 +214,11 @@ var la_local = moment(date).tz("America/Los_Angeles").format('l LT');
 
 ```
 
-This is useful if you always want a date to display in a certain timezone, either set for the application as a whole (all times are eastern time) or for a particular user (user sets timezone in profile)
+This is useful if you want a date to display in a certain timezone.  A common use case is that a user picks their timezone in a settings area, then that timezone setting is used to format all application times.
 
 ## Alternative Options
+
+The previously mentioned options are the recommended implementation for all meteor applications.  However, the following options are technically valid and could be useful or desired in certain applications.
 
 > #### Date Storage Alternatives
 > 
