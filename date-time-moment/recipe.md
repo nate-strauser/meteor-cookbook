@@ -104,17 +104,17 @@ Dates can easily be used in a query.  See the mongo cookbook - http://cookbook.m
 var startDate = new Date(2014,1,1);
 var endDate = new Date(2015,1,1);
 var result = Things.find({createdAt:{$lt:endDate,$gte:startDate}});
-//
+```
 
 
-> ##### What about storing as an offset?
-> It is fairly common for developers to store just the numerical representation of a Date object, the unix offset
-> ```
-> var date = Date.now();
-> // date -> 1400101308998
-> ```
-> An offset meets criteria #1 as it is a number of milliseconds since epoch (1 January 1970 00:00:00 UTC), from which you can calculate date, time, and adjust for timezone. A timestamp is very similar expect that it is seconds since epoch, rather than milliseconds.
-> Its quite possible to directly use the unix offset instead of the a date object, but it does not appear to provide any signignifcant adavantage over a date object.  However a date object does have several clear advantages over an offset, thus a date object is the recommended approach.
+##### What about storing as an offset?
+It is fairly common for developers to store just the numerical representation of a Date object, the unix offset
+```
+var date = Date.now();
+// date -> 1400101308998
+```
+An offset meets criteria #1 as it is a number of milliseconds since epoch (1 January 1970 00:00:00 UTC), from which you can calculate date, time, and adjust for timezone. A timestamp is very similar expect that it is seconds since epoch, rather than milliseconds.
+Its quite possible to directly use the unix offset instead of the a date object, but it does not appear to provide any signignifcant adavantage over a date object.  However a date object does have several clear advantages over an offset, thus a date object is the recommended approach.
 
 
 
