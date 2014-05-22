@@ -2,11 +2,13 @@
 
 * [Document Dates](date-time-moment/recipe.md)
 
+* [Reactive D3 Visualizations](d3/recipe.md)
+
 
 
 ## Drafts
 
-* [Reactive and Interactive SVGs, optionally using D3](svg-d3/recipe.md)
+* [Reactive SVGs](svg/recipe.md)
 
 * [Using Filepicker for uploads and on demand image conversion](filepicker/recipe.md)
 
