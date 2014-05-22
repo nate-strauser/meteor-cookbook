@@ -49,7 +49,7 @@ var date = new Date();
 console.log(date); //calls .toString 
 
 Date object
-
+```
 This means that the Date object type is simply a wrapper around a numerical value, which is a [Unix Offset](http://en.wikipedia.org/wiki/Unix_time).  This wrapper provides additional functionality, like getting and setting the hour or month of the date, that is useful and that would be difficult to accomplish by manually interacting with the offset itself.
 
 
@@ -158,12 +158,15 @@ if (Meteor.isServer) {
 This pattern ensures our objects have the correct date without having to defining a schema like with collection2.  Care must be taken to ensure that the hook is executing in the correct location. Without the `Meteor.isServer` wrapper or placing the code in the `server/` folder of your app, you could be using the date from the client.  This option also provides that any insert or update will have the correct server time appended to the operation.
 
 
-> Other suitable options
-> #### [Methods](http://docs.meteor.com/#methods_header)
-> 
-> ```
-var Things = new Collection('things');
-if (Meteor.isClient) {
+#### Alternative Options
+
+You can also use methods or the collection2 package to ensure that you documents have trusted dates.
+
+ ##### [Methods](http://docs.meteor.com/#methods_header)
+ 
+ ```
+ var Things = new Collection('things');
+ if (Meteor.isClient) {
   Template.thing.events({
     'click #createNewThing': function () {
       var thingProps = {
@@ -186,15 +189,14 @@ if (Meteor.isServer) {
       }
     });
   });
-}
-> ```
+ }
+ ```
 
 This will ensure that the property `createdAt` is set on the server (using server time), right before insertion.  Any inserts that do not use this method, may not have the correct date or even have the date at all.
 
 
 
-
-#### [collection2](https://github.com/aldeed/meteor-collection2#autovalue)
+##### [collection2](https://github.com/aldeed/meteor-collection2#autovalue)
 ```
 Things = new Meteor.Collection("things", {
     schema: new SimpleSchema({
