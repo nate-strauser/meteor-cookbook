@@ -1,12 +1,51 @@
-# Dates/Times with MomentJS
+# Dates and Times
 
 [Demo](http://date-time-moment.meteor.com/) - [Source](date-example/)
 
 ---------
 
+Dates in javascript 
+
+what really is a date
+
+
+
+native js support for dates is limited and difficult to use
+
+
+
 Dates and times are vital to almost all applications and can be quite tricky to properly utilize.  Fortunately, by using Moment and some other packages you can make it quite simple for your meteor applications.
 
 ----------
+
+
+## Table of Contents
+
+* [Storing Dates](#storing-dates)
+* [Trusting Generated Dates](#trusting-generated-dates)
+* [Automatic Document Timestamping](#automatic-document-timestamping)
+* [Formatting Dates For Display](#formatting-dates-for-display)
+
+
+
+## Storing Dates
+
+> ##### What about storing as an offset?
+> 
+>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## What are important criteria of Date properties?
 
@@ -44,9 +83,14 @@ Technically either is acceptable, but using a Date object is slightly superior.
 
 A follow on activity here could be a performance evaluation of numerical offsets versus Date objects.  Offsets do have some storage and bandwidth advantages, which in certain applications may balance well against the burden of parsing.
 
-#### What about storing as a string?
 
-It's also quite possible to store a date as a string, either a string of the date object or the offset/timestamp.  Strings don't give you any worthwhile benefit over a date or number, but do provide several disadvantages to utilization and performance, thus storing as a string is not recommended.  Also, depending on exactly what the format of the string is, you may not meet criteria #1 (eg "Wed May 14 2014 14:03:28" has no timezone and thus is ambiguous)
+
+
+
+
+
+
+
 
 ### How can you ensure your dates are accurate, consistent, and not manipulated?
 
