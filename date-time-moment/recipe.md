@@ -132,7 +132,7 @@ The problem with generating date object is that dates are always constructed usi
 
 The easiest mechanism for ensuring accurate dates is to use the collection-hooks package
 
-#### [collection-hooks](https://github.com/matb33/meteor-collection-hooks/#beforeinsertuserid-doc)
+#### [collection-hooks package](https://github.com/matb33/meteor-collection-hooks/#beforeinsertuserid-doc)
 ```
 Things = new Meteor.Collection("things");
 
@@ -150,115 +150,123 @@ if (Meteor.isServer) {
   Things.before.insert(function(userId, doc){
     doc.createdAt = new Date();
   });
-  Things.before.update(function (userId, doc, fieldNames, modifier, options) {
-    modifier.$set.updatedAt = new Date();
-  });
 }
 ```
 This pattern ensures our objects have the correct date without having to defining a schema like with collection2.  Care must be taken to ensure that the hook is executing in the correct location. Without the `Meteor.isServer` wrapper or placing the code in the `server/` folder of your app, you could be using the date from the client.  This option also provides that any insert or update will have the correct server time appended to the operation.
 
 
-#### Alternative Options
+> #### Alternatives to collection-hooks
+> 
+> ##### [Meteor Methods](http://docs.meteor.com/#methods_header)
+>  
+> ```
+>  var Things = new Collection('things');
+>  if (Meteor.isClient) {
+>   Template.thing.events({
+>     'click #createNewThing': function () {
+>       var thingProps = {
+>         name:'My New Thing'
+>       };
+> 
+>       Meteor.call('createNewThing', thingProps, function(error, result){
+>         var thingId = result;
+>       });
+>     }
+>   });
+> }
+> 
+> if (Meteor.isServer) {
+>   Meteor.startup(function () {
+>     Meteor.methods({
+>       createNewThing: function (props) {
+>         props.createdAt = new Date();
+>         return Things.insert(props);
+>       }
+>     });
+>   });
+>  }
+>  ```
+> 
+> This will ensure that the property `createdAt` is set on the server (using server time), right before insertion.  Any inserts that do not use this method, may not have the correct date or even have the date at all.  Methods can be used to meet date integrity needs, however special care must be taken to not circumvent your own methods.  Methods also have special properites in comparision to non-method code and thus should be reserved for advanced use cases rather than using methods as simple wrappers for insert/update/remove operations.
+> 
+> 
+> 
+> ##### [collection2 package](https://github.com/aldeed/meteor-collection2#autovalue)
+> ```
+> Things = new Meteor.Collection("things", {
+>     schema: new SimpleSchema({
+>         name:{
+>         	type:String
+>     	},
+>     	
+>     	//
+>     	// ... other schema properties ...
+>     	//
+> 
+>         // Force value to be current date (on server) upon insert
+>         // and prevent updates thereafter.
+>         createdAt: {
+>             type: Date,
+>             autoValue: function() {
+>                 if (this.isInsert) {
+>                     return new Date();
+>                 } else if (this.isUpsert) {
+>                     return {$setOnInsert: new Date()};
+>                 } else {
+>                     this.unset();
+>                 }
+>             },
+>             denyUpdate: true
+>         },
+>         // Force value to be current date (on server) upon update
+>         // and don't allow it to be set upon insert.
+>         updatedAt: {
+>             type: Date,
+>             autoValue: function() {
+>                 if (this.isUpdate) {
+>                     return new Date();
+>                 }
+>             },
+>             denyInsert: true,
+>             optional: true
+>         }
+>     })
+> });
+> 
+> if (Meteor.isClient) {
+>   Template.thing.events({
+>     'click #createNewThing': function () {
+>       var thingId = Things.insert({
+>         name:'My New Thing'
+>       });
+>     }
+>   });
+> }
+> ```
+> In this pattern we do the insert right from the client side, which simplifies our code a good bit compared to using methods.  From the collection2 docs we can learn that even though the autovalue is defined and executed on both client and server, 'the actual value saved will always be generated on the server'.  We also have the added benefit here of always having a correct createdAt and updatedAt date for this any object in this collection.  Collection2 is very powerful and especially useful in conjunction with the autoform package.  However, the up front effor of defining a data schema is not always desirable.
 
-You can also use methods or the collection2 package to ensure that you documents have trusted dates.
-
- ##### [Methods](http://docs.meteor.com/#methods_header)
- 
- ```
- var Things = new Collection('things');
- if (Meteor.isClient) {
-  Template.thing.events({
-    'click #createNewThing': function () {
-      var thingProps = {
-        name:'My New Thing'
-      };
-
-      Meteor.call('createNewThing', thingProps, function(error, result){
-        var thingId = result;
-      });
-    }
-  });
-}
-
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    Meteor.methods({
-      createNewThing: function (props) {
-        props.createdAt = new Date();
-        return Things.insert(props);
-      }
-    });
-  });
- }
- ```
-
-This will ensure that the property `createdAt` is set on the server (using server time), right before insertion.  Any inserts that do not use this method, may not have the correct date or even have the date at all.
 
 
-
-##### [collection2](https://github.com/aldeed/meteor-collection2#autovalue)
+### Automatically Timestamping
 ```
-Things = new Meteor.Collection("things", {
-    schema: new SimpleSchema({
-        name:{
-        	type:String
-    	},
-    	
-    	//
-    	// ... other schema properties ...
-    	//
-
-        // Force value to be current date (on server) upon insert
-        // and prevent updates thereafter.
-        createdAt: {
-            type: Date,
-            autoValue: function() {
-                if (this.isInsert) {
-                    return new Date();
-                } else if (this.isUpsert) {
-                    return {$setOnInsert: new Date()};
-                } else {
-                    this.unset();
-                }
-            },
-            denyUpdate: true
-        },
-        // Force value to be current date (on server) upon update
-        // and don't allow it to be set upon insert.
-        updatedAt: {
-            type: Date,
-            autoValue: function() {
-                if (this.isUpdate) {
-                    return new Date();
-                }
-            },
-            denyInsert: true,
-            optional: true
-        }
-    })
+//ensure createdAt date on insert
+Things.before.insert(function(userId, doc){
+	doc.createdAt = new Date();
 });
 
-if (Meteor.isClient) {
-  Template.thing.events({
-    'click #createNewThing': function () {
-      var thingId = Things.insert({
-        name:'My New Thing'
-      });
-    }
-  });
-}
+//ensure updatedAt date on update
+Things.before.update(function (userId, doc, fieldNames, modifier, options) {
+    modifier.$set.updatedAt = new Date();
+});
 ```
-In this pattern we do the insert right from the client side, which simplifies our code a good bit.  From the collection2 docs we can learn that even though the autovalue is defined and executed on both client and server, 'the actual value saved will always be generated on the server'.  We also have the added benefit here of always having a correct createdAt and updatedAt date for this any object in this collection.
-
-
 
 #### Which of these should you use?
 
 Any of the options will meet the need, but collection-hooks has a slight leg up.
 
 * collection-hooks provides the least intrusive option for ensuring date integrity.  It shares the **always correct** qualities of collection2 autovalue fields, without having to define your data schema.  collection-hooks can be used in conjunction with methods and/or collection2.
-* collection2 is very powerful and especially useful in conjunction with autoform.  However, defining a data schema is not always desirable.
-* methods can be used to meet date integrity needs, however special care must be taken to not circumvent your own methods.  Methods also have special properites in comparision to non-method code and thus should be reserved for advanced use cases.
+* 
+* 
 
 -----------
 
