@@ -4,7 +4,7 @@
 
 ----------
 
-Introduction paragraph.  Discuss problem/concern at high level.  Provide some background for context.
+Introduction.  Discuss problem/concern at high level.  Provide some background for context.
 
 ----------
 
@@ -21,3 +21,10 @@ some code samples
 
 
 ...
+
+
+----------
+
+Summary.  Review the suggestions made for this topic.
+
+----------
