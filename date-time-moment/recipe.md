@@ -1,7 +1,5 @@
 # Document Dates
 
----------
-
 [Live Demo](http://date-time-moment.meteor.com/) - [Demo Source](date-example/)
 
 ---------
@@ -16,6 +14,10 @@
 
 ## Introduction to Dates
 
+Dates in JavaScript are a bit of a mess.  They are tricky to work with and somewhat difficult to understand, but completely necessary to all but the most simplistic applications.  In this article, we will discuss most common usages of dates within Meteor applications, including storage, trusted generation, automatic timestamping, and formatting dates for display.
+
+----
+
 
 JavaScript has a object type, `Date`, which represents a particular date and time, accurate to within a millisecond.
 
@@ -23,15 +25,8 @@ JavaScript has a object type, `Date`, which represents a particular date and tim
 > 
 > The JavaScript date is  based on a time value that is milliseconds since midnight 01 January, 1970 UTC. A day holds 86,400,000 milliseconds. The JavaScript Date object range is -100,000,000 days to 100,000,000 days relative to 01 January, 1970 UTC.
 
+We also have support for `Date` objects throughout Meteor applications via [EJSON](http://docs.meteor.com/#ejson) and also in the [MongoDB database](http://docs.mongodb.org/manual/reference/bson-types/#date).
 
-
-> [MongoDB Docs](http://docs.mongodb.org/manual/reference/bson-types/#date)
->
-
-> Date is a 64-bit integer that represents the number of milliseconds since the Unix epoch (Jan 1, 1970). This results in a representable date range of about 290 million years into the past and future.
-
-
-#### Creating Date Objects
 
 In any JavaScript console, you can create a new date and inspect some of its properties.
 
@@ -40,8 +35,10 @@ var date = new Date();  //create a new date that represents the current date and
 date.toString(); // -> "Thu May 22 2014 16:47:19 GMT-0400 (EDT)"
 date.toJSON();   // -> "2014-05-22T20:47:19.039Z"
 date.valueOf();  // -> "1400791639039"
+
 ```
-If you wanted to create a date object from a known and specific date and/or time, you can easily do that via the constructor parameters.
+
+If you wanted to create a date object from a known and specific date and/or time, you can do that via the constructor parameters.
 
 ```
 var startOf2014 = new Date(2014,1,1);
@@ -49,14 +46,12 @@ var startOf2014 = new Date(2014,1,1);
 See the [Mozilla docs on Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) for more examples.
 
 
+The `Date` object type is mostly a wrapper around a numerical value, which is a [Unix Offset](http://en.wikipedia.org/wiki/Unix_time).  This wrapper provides additional functionality, like getting and setting the hour or month of the date, that is useful and that would be difficult to accomplish by manually interacting with the offset itself.
 
-From these properties and the mozilla/mongo docs, it is clear that the `Date` object type is a wrapper around a numerical value, which is a [Unix Offset](http://en.wikipedia.org/wiki/Unix_time).  This wrapper provides additional functionality, like getting and setting the hour or month of the date, that is useful and that would be difficult to accomplish by manually interacting with the offset itself.
-
-----------
 
 ## Storing Dates
 
-The best way to represent dates on your collection documents is by directly using the date object type.  A date that represents the current date and time can be generated via a call to the `new Date()` constructor.  Meteor applications have full stack support for using `Date` objects.  The client and server runtimes are javascript, which natively supports `Date` objects.  The [EJSON](http://docs.meteor.com/#ejson) extension to JSON in Meteor core provides support for Date objects throughout your application code.  MongoDB also has support for Date objects.  Since we have proper support for `Date` objects throughout the entire stack, it makes sense to use these objects.
+The best way to represent dates on your collection documents is by directly using the date object type.  A date that represents the current date and time can be generated via a call to the `new Date()` constructor.  Meteor applications have full stack support for using `Date` objects.  The client and server runtimes are JavaScript, which natively supports `Date` objects.  The [EJSON](http://docs.meteor.com/#ejson) extension to JSON in Meteor core provides support for Date objects throughout your application code.  MongoDB also has support for Date objects.  Since we have proper support for `Date` objects throughout the entire stack, it makes sense to use these objects.
 
 ```
 var date = new Date();
