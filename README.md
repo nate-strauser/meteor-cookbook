@@ -1,15 +1,15 @@
 #Meteor Cookbook
 
-* [Dates as Document Properties](date-time-moment/recipe.md)
+* [Dates as Document Properties](date-time-moment/)
 
-* [Reactive D3 Visualizations](d3/recipe.md)
+* [Reactive D3 Visualizations](d3/)
 
 --------
 
 ### Drafts
 
-* [Reactive SVGs](svg/recipe.md)
+* [Reactive SVGs](svg/)
 
-* [Using Filepicker for uploads and on demand image conversion](filepicker/recipe.md)
+* [Using Filepicker for uploads and on demand image conversion](filepicker/)
 
-* [Methods are powerful yet easily overused](methods/recipe.md)
+* [Methods are powerful yet easily overused](methods/)
