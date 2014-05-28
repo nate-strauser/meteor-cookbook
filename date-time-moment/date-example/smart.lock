@@ -3,7 +3,8 @@
   "dependencies": {
     "basePackages": {
       "moment": {},
-      "collection-hooks": {}
+      "collection-hooks": {},
+      "moment-timezone": {}
     },
     "packages": {
       "moment": {
@@ -15,6 +16,11 @@
         "git": "https://github.com/matb33/meteor-collection-hooks.git",
         "tag": "v0.6.7",
         "commit": "f1d2ac629864edda09df6c955fa5ff3df26f739c"
+      },
+      "moment-timezone": {
+        "git": "https://github.com/acreeger/meteor-moment-timezone",
+        "tag": "v0.0.1.4",
+        "commit": "feb364efb1ec0cefb870d5981b2b836b45211455"
       }
     }
   }

@@ -1,4 +1,4 @@
-# Document Dates
+# Dates as Document Properties
 
 [Live Demo](http://date-time-moment.meteor.com/) - [Demo Source](date-example/)
 

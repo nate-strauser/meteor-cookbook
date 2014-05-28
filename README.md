@@ -1,6 +1,6 @@
 #Meteor Cookbook
 
-* [Document Dates](date-time-moment/recipe.md)
+* [Dates as Document Properties](date-time-moment/recipe.md)
 
 * [Reactive D3 Visualizations](d3/recipe.md)
 

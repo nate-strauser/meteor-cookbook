@@ -37,6 +37,9 @@ Template.barChart.events({
 			Session.set('barChartSort','none');
 			Session.set('barChartSortModifier',{});
 		}
+	},
+	'click rect':function(event, template){
+		alert('you clicked a bar for document with _id=' + $(event.currentTarget).data("id"));
 	}
 });
 
@@ -91,6 +94,9 @@ Template.barChart.rendered = function(){
 			})
 			.attr("fill", function(d) {
 				return "rgb(0, 0, " + (d.value * 10) + ")";
+			})
+			.attr("data-id", function(d){
+				return d._id;
 			});
 
 		//Update…

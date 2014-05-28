@@ -1,6 +1,7 @@
 {
   "packages": {
     "moment": {},
-    "collection-hooks": {}
+    "collection-hooks": {},
+    "moment-timezone": {}
   }
 }

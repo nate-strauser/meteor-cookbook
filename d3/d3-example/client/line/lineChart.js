@@ -1,18 +1,18 @@
 var Points = new Meteor.Collection(null);
 
 if(Points.find({}).count() === 0){
-	for(i = 0; i < 50; i++)
+	for(i = 0; i < 20; i++)
 		Points.insert({
 			date:moment().startOf('day').subtract('days', Math.floor(Math.random() * 1000)).toDate(),
-			value:Math.floor(Math.random() * 500)+500
+			value:Math.floor(Math.random() * 100)+500
 		});
 }
 
 Template.lineChart.events({
 	'click #add':function(){
 		Points.insert({
-			date:moment().startOf('day').add('days', Math.floor(Math.random() * 100)).toDate(),
-			value:Math.floor(Math.random() * 500)+500
+			date:moment().startOf('day').subtract('days', Math.floor(Math.random() * 1000)).toDate(),
+			value:Math.floor(Math.random() * 100)+500
 		});
 	},
 	'click #remove':function(){
@@ -22,7 +22,7 @@ Template.lineChart.events({
 	'click #randomize':function(){
 		//loop through bars
 		Points.find({}).forEach(function(point){
-			Points.update({_id:point._id},{$set:{value:Math.floor(Math.random() * 500)+500}});
+			Points.update({_id:point._id},{$set:{value:Math.floor(Math.random() * 100)+500}});
 		});
 	}
 });
@@ -64,12 +64,10 @@ Template.lineChart.rendered = function(){
 
 	svg.append("g")
 		.attr("class", "x axis")
-		.attr("transform", "translate(0," + height + ")")
-		.call(xAxis);
+		.attr("transform", "translate(0," + height + ")");
 
 	svg.append("g")
 		.attr("class", "y axis")
-		.call(yAxis)
 		.append("text")
 		.attr("transform", "rotate(-90)")
 		.attr("y", 6)

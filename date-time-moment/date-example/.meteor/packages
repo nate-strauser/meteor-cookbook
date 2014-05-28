@@ -8,3 +8,4 @@ autopublish
 insecure
 moment
 collection-hooks
+moment-timezone

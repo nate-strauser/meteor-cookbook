@@ -9,7 +9,7 @@ if (Meteor.isClient) {
           Session.set('serverDate', result);
   });
 
-  Template.thing.helpers({
+  Template.things.helpers({
     'things':function(){
       return Things.find({},{sort:{createdAt:-1},limit:10});
     },
@@ -22,7 +22,7 @@ if (Meteor.isClient) {
   });
 
   
-  Template.thing.events({
+  Template.things.events({
     'click #createNewThing': function () {
       var thingId = Things.insert({
         name:'My Thing #'+(Things.find({}).count()+1)
@@ -33,6 +33,11 @@ if (Meteor.isClient) {
   UI.registerHelper("localizedDateAndTime", function(date) {
     if(date)
       return moment(date).format('l LT'); // shorthand for localized format "5/23/2014 3:47 PM"
+  });
+
+  UI.registerHelper("dateToPacificTime", function(date) {
+    if(date)
+      return moment(date).tz("America/Los_Angeles").format('l LT')
   });
 }
 

@@ -4,19 +4,19 @@
 
 <body>
   <h1>Date Testing</h1>
-  {{> thing}}
+  {{> things}}
 </body>
 
-<template name="thing">
-	Raw Client Date: {{clientDate}}
+<template name="things">
+	Client Date: {{localizedDateAndTime clientDate}}
 	&nbsp;
 	&nbsp;
-	Raw Server Date: {{serverDate}}
+	Server Date: {{localizedDateAndTime serverDate}}
 	<hr>
 	<input type="button" id="createNewThing" value="Create New Thing" />
 	<hr>
 	{{#each things}}
-		{{name}} - Formatted Date: {{localizedDateAndTime createdAt}} - Raw Date: {{createdAt}}
+		{{name}} - Formatted: {{localizedDateAndTime createdAt}} - Pacific Time: {{dateToPacificTime createdAt}}
 		<br>
 	{{/each}}
 </template>
