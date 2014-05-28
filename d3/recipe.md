@@ -7,7 +7,7 @@
 * [Introduction to D3](#introduction-to-d3)
 * [Common Chart Types](#common-chart-types)
 * [Base D3 Integration Pattern](#base-d3-intergation-pattern)
-* [Binding Events to D3 Elements](#binding-events-to-d3-elements)
+* [Binding Events to D3 Controlled Elements](#binding-events-to-d3-controlled-elements)
 
 ---------
 
