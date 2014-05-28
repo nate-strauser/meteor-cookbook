@@ -4,9 +4,9 @@
 
 * [Reactive D3 Visualizations](d3/recipe.md)
 
+--------
 
-
-## Drafts
+### Drafts
 
 * [Reactive SVGs](svg/recipe.md)
 
