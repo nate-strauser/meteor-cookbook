@@ -46,19 +46,21 @@ var startOf2014 = new Date(2014,1,1);
 See the [Mozilla docs on Date](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) for more examples.
 
 
-The `Date` object type is mostly a wrapper around a numerical value, which is a [Unix Offset](http://en.wikipedia.org/wiki/Unix_time).  This wrapper provides additional functionality, like getting and setting the hour or month of the date, that is useful and that would be difficult to accomplish by manually interacting with the offset itself.
+The Date object type is mostly a wrapper around a numerical value, which is a [Unix Offset](http://en.wikipedia.org/wiki/Unix_time).  This wrapper provides additional functionality, like getting and setting the hour or month of the date, which is useful as it would be difficult to accomplish when directly interacting with the offset itself.
 
 
 ## Storing Dates
 
-The best way to represent dates on your collection documents is by directly using the date object type.  A date that represents the current date and time can be generated via a call to the `new Date()` constructor.  Meteor applications have full stack support for using `Date` objects.  The client and server runtimes are JavaScript, which natively supports `Date` objects.  The [EJSON](http://docs.meteor.com/#ejson) extension to JSON in Meteor core provides support for Date objects throughout your application code.  MongoDB also has support for Date objects.  Since we have proper support for `Date` objects throughout the entire stack, it makes sense to use these objects.
+The best way to represent dates on your collection documents is by directly using the Date object type.  A date that represents the current date and time can be generated via a call to the `new Date()` constructor.
 
 ```
 var date = new Date();
 // date -> Wed May 14 2014 14:03:28 GMT-0700 (UTC)
 ```
 
-We can also generate a date object as one of the properties sent to the collection's `insert` method.
+Meteor provides full stack support for using Date objects.  The client and server runtimes are JavaScript, which natively supports Date objects.  The [EJSON](http://docs.meteor.com/#ejson) extension to JSON in Meteor core provides support for Date objects throughout your application code.  MongoDB also has support for Date objects.  Since we have proper support for Date objects throughout the entire stack, it makes sense to use this object type directly on documents.
+
+Using Dates as object properties is not hard at all.  We can easily generate a date object as one of the properties supplied to the collection's `insert()` method.
 
 ```
 Things.insert({
@@ -67,7 +69,7 @@ Things.insert({
 });
 ```
 
-Dates objects can also easily be used in a collection query.
+Once we have documents inserted with Date properties, we can use other Date objects as [Mongo selectors](http://docs.meteor.com/#selectors) in a collection query.
 
 ```
 var startDate = new Date(2014,1,1);
@@ -79,7 +81,7 @@ var results = Things.find({
   }
 });
 ```
-This will give us all `Things` that were created during the year 2014.  See the [mongo cookbook](http://cookbook.mongodb.org/patterns/date_range/) for further examples.
+This will return a result of all `Things` documents that were created during the year 2014.  See the [mongo cookbook](http://cookbook.mongodb.org/patterns/date_range/) for further examples.
 
 
 
@@ -89,7 +91,7 @@ It is also possible to store dates as a unix offset, see [alternative options](#
 
 ## Trusting Generated Dates
 
-An troublesome issue when generating date objects is that dates are always constructed using the time and date of the operating system on which the generation occurs.  If your application generates dates directly on the client, then you are vulnerable to a user simply changing the date or time on their device.  Even if your users are not actively trying to provide you with an incorrect date, you must still account for incorrect times on devices.  **The date and time of any user controlled device can not be trusted, thus is it necessary to only utilize the date and time of your server.**
+A troublesome issue when generating Date objects is that they are always constructed using the time and date of the operating system on which the generation occurs.  If your application generates Dates directly on the client, then you are vulnerable to a user simply changing the date or time on their device.  Even if your users are not actively trying to provide you with an incorrect Date, you must still account for incorrect times on devices.  **The date and time of any user controlled device can not be trusted, thus is it necessary to only utilize the date and time of your server.**
 
 The best mechanism for ensuring accurate creation/insert dates on your documents is to use the [collection-hooks package](https://atmospherejs.com/package/collection-hooks)
 
@@ -192,7 +194,7 @@ See the moment docs for [fromNow()](http://momentjs.com/docs/#/displaying/fromno
 #### Time zones
 
 
-Moment automatically detects what time zone the client device is set to, as well as whether or not daylight savings time is in effect. If you just want all times to be displayed in the local time zone of each client, you can just use moment to format the date as shown above.  **No special handling is needed as formatting into the device's timezone is the default behavior.**
+Moment automatically detects what time zone the client device is set to, as well as whether or not daylight savings time is in effect. If you just want all times to be displayed in the local time zone of each client, you can use moment to format the date as shown above.  **No special handling is needed as formatting into the device's timezone is the default behavior.**
 
 ##### Formatting into a specific timezone
 
@@ -209,7 +211,7 @@ var la_local = moment(date).tz("America/Los_Angeles").format('l LT');
 
 ```
 
-This is useful if you want a date to display in a certain timezone.  A common use case is that a user picks their timezone in a settings area, then that timezone setting is used to format all application times.
+This is useful if you want a Date to display in a specific timezone.  A common use case is that a user picks their timezone in a settings area, then that timezone setting is used to format all application times.
 
 ## Alternative Options
 
@@ -218,13 +220,13 @@ The previously mentioned options are the recommended implementation for all mete
 > #### Date Storage Alternatives
 > 
 > ##### Unix Offset
-> It is fairly common for developers to store just the numerical representation of a Date object, the unix offset
+> It is somewhat common for developers to store just the numerical representation of a Date object, the unix offset.
 > 
 > ```
 > var date = Date.now();
 > // date -> 1400101308998
 > ```
-> Its quite possible to directly use the unix offset, storing just a simple integer, instead of the a date object, but it does not appear to provide any significant advantage over a date object.  However, a date object does have several clear advantages over an offset, thus a date object is the recommended approach.
+> Its quite possible to directly use the unix offset, storing just a simple integer, instead of a Date object, but it does not appear to provide any significant advantage over a Date object.  However, a Date object does have several clear advantages over an offset, thus a Date object is the recommended approach.
 
 --------------
 
@@ -259,7 +261,7 @@ The previously mentioned options are the recommended implementation for all mete
 >  }
 >  ```
 > 
-> This will ensure that the property `createdAt` is set on the server (using server time), right before insertion.  Any inserts that do not use this method, may not have the correct date or even have the date at all.  Methods can be used to meet date integrity needs, however special care must be taken to not circumvent your own methods.  Methods also have special properties in comparison to non-method code and thus should be reserved for advanced use cases rather than using methods as simple wrappers for insert/update/remove operations.
+> This will ensure that the property `createdAt` is set on the server (using server time), right before insertion.  Any inserts that do not use this method, may not have the correct date or even have the date at all.  Methods can be used to meet Date integrity needs, however special care must be taken to not circumvent your own methods.  Methods also have special properties in comparison to non-method code and thus should be reserved for advanced use cases rather than using methods as simple wrappers for insert/update/remove operations.
 > 
 > 
 > 
@@ -315,7 +317,7 @@ The previously mentioned options are the recommended implementation for all mete
 >   });
 > }
 > ```
-> In this pattern we do the insert right from the client side, which simplifies our code a good bit compared to using methods.  From the collection2 docs we can learn that even though the autovalue is defined and executed on both client and server, 'the actual value saved will always be generated on the server'.  We also have the added benefit here of always having a correct createdAt and updatedAt date for this any object in this collection.  Collection2 is very powerful and especially useful in conjunction with the autoform package.  However, the up front effor of defining a data schema is not always desirable.  It is possible to use both collection-hooks and collection2 on the same collection, if desired.
+> In this pattern we do the insert right from the client side, which simplifies our code a good bit compared to using methods.  From the collection2 docs we learn that even though the autovalue is defined and executed on both client and server, 'the actual value saved will always be generated on the server'.  We also have the added benefit here of always having a correct createdAt and updatedAt date for this any object in this collection, this means that Collection2 can also be used to meet any automatic timestamping requirements.  Collection2 is very powerful and especially useful in conjunction with the autoform package.  However, the up front effort of defining a data schema is not always desirable.  It is possible to use both collection-hooks and collection2 on the same collection, if desired.
 
 
 
