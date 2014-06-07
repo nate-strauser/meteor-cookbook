@@ -1,4 +1,4 @@
-# Methods are powerful yet easily overused
+# Methods 
 
 ----------
 
@@ -95,78 +95,6 @@ Objects.before.update(function (userId, doc, fieldNames, modifier, options) {
 });
 ```
 Using hooks like this to ensure that certain properties were generated server side provides a cleaner and less profuse way of performing simple insert/update operations.
-
-
-### Document inserts done via methods can result in a 'double insert flicker'
-
-Let's examine a simple template that displays all of the items in our collection
-```
-// client/views/objects.html
-<template name="objects">
-<button id="insert">Insert New Object</button>
-{{#each objects}}
-	<div>
-	    {{_id}} -- {{createdAt}}  <!-- print out some properties of the object -->
-	</div>
-{{/each}}
-</template>
-```
-
-The objects cursor that is sent to the template is sorted by the time of object creation, newest objects appear first.
-```
-Template.objects.helpers({
-	'objects':function(){
-		return Objects.find({},{sort:{createdAt:-1}});
-	}
-});
-```
-
-If we have controller code that inserts a new object via a method call, we'll get 2 new items in the list for just moment before the client side inserted one is removed.
-```
-//client/object.js
-Template.object.events({
-	'click #insert':function(){
-		var objectProps = {
-			...//gather data from inputs, session, user, etc
-		};
-		Meteor.call('createObject', objectProps, function(error, result){
-			//result has method response, the _id of the new object in this case
-		});
-	}
-});
-
-//lib/methods.js
-Meteor.methods({
-	createObject: function (objectProps) {
-		...//optionally alter or inspect the object
-		objectProps.createdAt = new Date();
-		return Objects.insert(objectProps);
-	}
-});
-```
-
-So why do we see two new inserts then one is removed?  Because the method code is placed in the `lib` folder, which means that it will be available for execution on both the client and server.  The client execution will be a `stub` that will perform an insert, but when the server execution returns its result, that result will be written to the local cache, which may cause a redraw.
-
-This 'double insert flicker' can be eliminated via one of two simple changes.
-
-#### Generate _id property before calling method
-```
-Template.object.events({
-	'click #insert':function(){
-		var objectProps = {
-			_id:Random.id(),
-			...//gather data from inputs, session, user, etc
-		};
-		Meteor.call('createObject', objectProps, function(error, result){
-			//result has method response, the _id of the new object in this case
-		});
-	}
-});
-```
-This simple change will now ensure that the client and server both have the same '_id' attribute.  While you may still notice some redraws when the server returns its results, you will no longer see 2 inserted objects turning into 1 object.
-
-#### Do not make method accessible to client for stub execution
-You can have your method code be not accessible to the client by just having the methods.js file in the 'server' (server/methods.js) directory instead of the 'lib' directory (lib/methods.js).  This may not be desirable though as you will effectively lose the 'latency compensation' feature that makes meteor apps feel so fast.  Since your method is no longer defined on the client, your template must wait to redraw until the server has responded with its results.  This is barely noticeable when doing local development, but quite noticeable on a production hosting setup where the server is not the same machine as the client. 
 
 ------
 
