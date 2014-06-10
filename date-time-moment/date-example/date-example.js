@@ -37,7 +37,7 @@ if (Meteor.isClient) {
 
   UI.registerHelper("dateToPacificTime", function(date) {
     if(date)
-      return moment(date).tz("America/Los_Angeles").format('l LT')
+      return moment(date).tz("America/Los_Angeles").format('l LT');
   });
 }
 
@@ -46,6 +46,7 @@ if (Meteor.isServer) {
     doc.createdAt = new Date();
   });
   Things.before.update(function (userId, doc, fieldNames, modifier, options) {
+    modifier.$set = modifier.$set || {};
     modifier.$set.updatedAt = new Date();
   });
 

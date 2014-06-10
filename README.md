@@ -1,12 +1,13 @@
 #Meteor Cookbook
 
-* [Dates as Document Properties](date-time-moment/)
+* [Using Dates and Times](date-time-moment/)
 
-* [Reactive D3 Visualizations](d3/)
 
 --------
 
 ### Drafts
+
+* [Reactive D3 Visualizations](d3/)
 
 * [Reactive SVGs](svg/)
 
